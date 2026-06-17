@@ -282,27 +282,65 @@ async function cari(){
     }
 
     const res = await fetch(WEBAPP_URL + "?nama=" + encodeURIComponent(nama));
-
     const result = await res.json();
 
     const data = result.data || [];
 
     console.log(data);
 
+    let belumPulang = 0;
+
+    data.forEach(x=>{
+        if(!x.pulang){
+            belumPulang++;
+        }
+    });
+
     let html = "";
 
     data.forEach(x=>{
 
+        const status =
+        x.pulang
+        ? '<span class="status-ok">Lengkap</span>'
+        : '<span class="status-warning">Belum Lengkap</span>';
+
+        const kelasCard =
+        x.pulang
+        ? "success"
+        : "warning";
+
         html += `
-        <div class="card">
+        <div class="card ${kelasCard}">
 
             <div class="tanggal">
-                📅 ${x.tanggal}
+                📅 ${x.tanggal}<br>
+                ${status}
             </div>
 
             <div class="row">
                 <span>Masuk</span>
                 ${tampil(x.masuk)}
+            </div>
+
+            <div class="row">
+                <span>Istirahat 1</span>
+                ${tampil(x.istirahat1)}
+            </div>
+
+            <div class="row">
+                <span>Kembali 1</span>
+                ${tampil(x.kembali1)}
+            </div>
+
+            <div class="row">
+                <span>Istirahat 2</span>
+                ${tampil(x.istirahat2)}
+            </div>
+
+            <div class="row">
+                <span>Kembali 2</span>
+                ${tampil(x.kembali2)}
             </div>
 
             <div class="row">
@@ -314,12 +352,20 @@ async function cari(){
         `;
     });
 
+    document.getElementById("summary").innerHTML = `
+        <div class="summary-card">
+            <h2>👤 ${data[0]?.nama || '-'}</h2>
+            <p>Total Hari Absen : <b>${data.length}</b></p>
+            <p>Belum Scan Pulang : <b>${belumPulang}</b></p>
+        </div>
+    `;
+
     document.getElementById("hasil").innerHTML =
     data.length ? html : "<div class='card'>Data tidak ditemukan</div>";
 }
 
-document.getElementById("nama").addEventListener("keypress", function(e){
-    if(e.key === "Enter"){
+document.getElementById("nama").addEventListener("keypress",function(e){
+    if(e.key==="Enter"){
         cari();
     }
 });
