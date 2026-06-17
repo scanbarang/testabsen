@@ -272,7 +272,38 @@ function tampil(v){
     return (v && v.trim() !== "")
     ? `<span class="ok">${v}</span>`
     : `<span class="kosong">-</span>`;
+function isiBulan(data){
 
+    const select = document.getElementById("bulan");
+
+    if(!select) return;
+
+    const bulanSet = new Set();
+
+    data.forEach(item => {
+
+        if(item.bulan){
+            bulanSet.add(item.bulan);
+        }
+
+    });
+
+    select.innerHTML =
+    '<option value="">Semua Bulan</option>';
+
+    bulanSet.forEach(bulan => {
+
+        const option =
+        document.createElement("option");
+
+        option.value = bulan;
+        option.textContent = bulan;
+
+        select.appendChild(option);
+
+    });
+
+}
 }
 
 async function cari(){
@@ -297,7 +328,7 @@ async function cari(){
 const data = result.data || [];
 console.log(data);
 
-// isiBulan(data);
+isiBulan(data);
 
 const terlambat = result.terlambat || 0;
     data.sort(
