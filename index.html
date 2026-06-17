@@ -264,144 +264,45 @@ body{
 
 <script>
 
-const WEBAPP_URL =
-"https://script.google.com/macros/s/AKfycbwBMxlujfB7xE68welYbFrC5utj4cF7r9sx_kqWxr7iXL50B0jBWRWxUjJolc72HJ-8mA/exec";
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwBMxlujfB7xE68welYbFrC5utj4cF7r9sx_kqWxr7iXL50B0jBWRWxUjJolc72HJ-8mA/exec";
 
 function tampil(v){
-
     return (v && v.trim() !== "")
     ? `<span class="ok">${v}</span>`
     : `<span class="kosong">-</span>`;
-function isiBulan(data){
-
-    const select = document.getElementById("bulan");
-
-    if(!select) return;
-
-    const bulanSet = new Set();
-
-    data.forEach(item => {
-
-        if(item.bulan){
-            bulanSet.add(item.bulan);
-        }
-
-    });
-
-    select.innerHTML =
-    '<option value="">Semua Bulan</option>';
-
-    bulanSet.forEach(bulan => {
-
-        const option = document.createElement("option");
-        option.value = bulan;
-        option.textContent = bulan;
-        select.appendChild(option);
-
-    });
-
 }
 
 async function cari(){
 
-    const nama =
-    document.getElementById("nama").value.trim();
+    const nama = document.getElementById("nama").value.trim();
 
     if(!nama){
         alert("Masukkan nama terlebih dahulu");
         return;
     }
 
-    const res =
-    await fetch(
-        WEBAPP_URL +
-        "?nama=" +
-        encodeURIComponent(nama)
-    );
+    const res = await fetch(WEBAPP_URL + "?nama=" + encodeURIComponent(nama));
 
     const result = await res.json();
 
-const data = result.data || [];
-console.log(data[0]);
+    const data = result.data || [];
 
-isiBulan(data);
-
-const terlambat = result.terlambat || 0;
-    data.sort(
-        (a,b)=>
-        Number(a.tanggal)-Number(b.tanggal)
-    );
-
-    let belumPulang = 0;
-
-    data.forEach(x=>{
-        if(!x.pulang){
-            belumPulang++;
-        }
-    });
-
-    if(data.length){
-
-        document.getElementById("summary").innerHTML = `
-        <div class="summary-card">
-            <h2>👤 ${data[0].nama}</h2>
-            <p>Total Hari Absen : <b>${data.length}</b></p>
-            <p>Belum Scan Pulang : <b>${belumPulang}</b></p>
-            <p>Datang Terlambat : <b>${terlambat}</b></p>
-        </div>
-        `;
-
-    }else{
-
-        document.getElementById("summary").innerHTML = "";
-
-    }
+    console.log(data);
 
     let html = "";
 
     data.forEach(x=>{
 
-        const status =
-        x.pulang
-        ? '<span class="status-ok">Lengkap</span>'
-        : '<span class="status-warning">Belum Lengkap</span>';
-
-        const kelasCard =
-        x.pulang
-        ? "success"
-        : "warning";
-
         html += `
-        <div class="card ${kelasCard}">
+        <div class="card">
 
             <div class="tanggal">
-                📅 Tanggal ${x.tanggal}<br>
-                ${status}
+                📅 ${x.tanggal}
             </div>
 
             <div class="row">
                 <span>Masuk</span>
                 ${tampil(x.masuk)}
-            </div>
-
-            <div class="row">
-                <span>Istirahat 1</span>
-                ${tampil(x.istirahat1)}
-            </div>
-
-            <div class="row">
-                <span>Kembali 1</span>
-                ${tampil(x.kembali1)}
-            </div>
-
-            <div class="row">
-                <span>Istirahat 2</span>
-                ${tampil(x.istirahat2)}
-            </div>
-
-            <div class="row">
-                <span>Kembali 2</span>
-                ${tampil(x.kembali2)}
             </div>
 
             <div class="row">
@@ -414,16 +315,9 @@ const terlambat = result.terlambat || 0;
 
     });
 
-    if(data.length===0){
-
-        html = `
-        <div class="card">
-            Data tidak ditemukan
-        </div>
-        `;
-
-    }
-
+    document.getElementById("hasil").innerHTML =
+    data.length ? html : "Data tidak ditemukan";
+}
     document.getElementById("hasil").innerHTML = html;
 
 }
