@@ -312,24 +312,16 @@ async function cari(){
 
         </div>
         `;
-
     });
 
     document.getElementById("hasil").innerHTML =
-    data.length ? html : "Data tidak ditemukan";
-}
-    document.getElementById("hasil").innerHTML = html;
-
+    data.length ? html : "<div class='card'>Data tidak ditemukan</div>";
 }
 
-document
-.getElementById("nama")
-.addEventListener("keypress",function(e){
-
-    if(e.key==="Enter"){
+document.getElementById("nama").addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
         cari();
     }
-
 });
 
 </script>
