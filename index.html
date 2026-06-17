@@ -243,50 +243,48 @@ body{
     <button onclick="cari()">Cari</button>
 </div>
 
-<div style="max-width:700px;margin:0 auto 20px;">
-    <select id="bulan" style="
-        width:100%;
-        padding:14px;
-        border-radius:16px;
-        border:1px solid rgba(255,255,255,.15);
-        background:rgba(255,255,255,.08);
-        color:white;
-        font-size:16px;
-        backdrop-filter:blur(12px);
-    ">
-        <option value="">Semua Bulan</option>
-    </select>
-</div>
-
 <div id="summary"></div>
 
 <div id="hasil" class="grid"></div>
 
 <script>
 
-const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwBMxlujfB7xE68welYbFrC5utj4cF7r9sx_kqWxr7iXL50B0jBWRWxUjJolc72HJ-8mA/exec";
+const WEBAPP_URL =
+"https://script.google.com/macros/s/AKfycbwBMxlujfB7xE68welYbFrC5utj4cF7r9sx_kqWxr7iXL50B0jBWRWxUjJolc72HJ-8mA/exec";
 
 function tampil(v){
+
     return (v && v.trim() !== "")
     ? `<span class="ok">${v}</span>`
     : `<span class="kosong">-</span>`;
+
 }
 
 async function cari(){
 
-    const nama = document.getElementById("nama").value.trim();
+    const nama =
+    document.getElementById("nama").value.trim();
 
     if(!nama){
         alert("Masukkan nama terlebih dahulu");
         return;
     }
 
-    const res = await fetch(WEBAPP_URL + "?nama=" + encodeURIComponent(nama));
+    const res =
+    await fetch(
+        WEBAPP_URL +
+        "?nama=" +
+        encodeURIComponent(nama)
+    );
+
     const result = await res.json();
 
-    const data = result.data || [];
-
-    console.log(data);
+const data = result.data || [];
+const terlambat = result.terlambat || 0;
+    data.sort(
+        (a,b)=>
+        Number(a.tanggal)-Number(b.tanggal)
+    );
 
     let belumPulang = 0;
 
@@ -295,6 +293,23 @@ async function cari(){
             belumPulang++;
         }
     });
+
+    if(data.length){
+
+        document.getElementById("summary").innerHTML = `
+        <div class="summary-card">
+            <h2>👤 ${data[0].nama}</h2>
+            <p>Total Hari Absen : <b>${data.length}</b></p>
+            <p>Belum Scan Pulang : <b>${belumPulang}</b></p>
+            <p>Datang Terlambat : <b>${terlambat}</b></p>
+        </div>
+        `;
+
+    }else{
+
+        document.getElementById("summary").innerHTML = "";
+
+    }
 
     let html = "";
 
@@ -314,7 +329,7 @@ async function cari(){
         <div class="card ${kelasCard}">
 
             <div class="tanggal">
-                📅 ${x.tanggal}<br>
+                📅 Tanggal ${x.tanggal}<br>
                 ${status}
             </div>
 
@@ -350,24 +365,31 @@ async function cari(){
 
         </div>
         `;
+
     });
 
-    document.getElementById("summary").innerHTML = `
-        <div class="summary-card">
-            <h2>👤 ${data[0]?.nama || '-'}</h2>
-            <p>Total Hari Absen : <b>${data.length}</b></p>
-            <p>Belum Scan Pulang : <b>${belumPulang}</b></p>
-        </div>
-    `;
+    if(data.length===0){
 
-    document.getElementById("hasil").innerHTML =
-    data.length ? html : "<div class='card'>Data tidak ditemukan</div>";
+        html = `
+        <div class="card">
+            Data tidak ditemukan
+        </div>
+        `;
+
+    }
+
+    document.getElementById("hasil").innerHTML = html;
+
 }
 
-document.getElementById("nama").addEventListener("keypress",function(e){
+document
+.getElementById("nama")
+.addEventListener("keypress",function(e){
+
     if(e.key==="Enter"){
         cari();
     }
+
 });
 
 </script>
