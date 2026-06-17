@@ -226,6 +226,11 @@ body{
     .tanggal{
         font-size:13px;
     }
+    .card.late{
+    border:2px solid #facc15;
+    background:rgba(250,204,21,.08);
+    box-shadow:0 0 15px rgba(250,204,21,.2);
+}
 }
 
 
@@ -315,58 +320,65 @@ const terlambat = result.terlambat || 0;
 
     data.forEach(x=>{
 
-        const status =
+    const isTerlambat =
+        (x.terlambat || "").toString().toUpperCase() === "YA";
+
+    const status =
         x.pulang
         ? '<span class="status-ok">Lengkap</span>'
         : '<span class="status-warning">Belum Lengkap</span>';
 
-        const kelasCard =
+    const kelasCard =
         x.pulang
         ? "success"
         : "warning";
 
-        html += `
-        <div class="card ${kelasCard}">
+    const kelasTambahan =
+        isTerlambat ? "late" : "";
 
-            <div class="tanggal">
-                📅 Tanggal ${x.tanggal}<br>
-                ${status}
-            </div>
+    html += `
+    <div class="card ${kelasCard} ${kelasTambahan}">
 
-            <div class="row">
-                <span>Masuk</span>
-                ${tampil(x.masuk)}
-            </div>
+        <div class="tanggal">
+            📅 ${x.tanggal}<br>
+            ${status}
 
-            <div class="row">
-                <span>Istirahat 1</span>
-                ${tampil(x.istirahat1)}
-            </div>
-
-            <div class="row">
-                <span>Kembali 1</span>
-                ${tampil(x.kembali1)}
-            </div>
-
-            <div class="row">
-                <span>Istirahat 2</span>
-                ${tampil(x.istirahat2)}
-            </div>
-
-            <div class="row">
-                <span>Kembali 2</span>
-                ${tampil(x.kembali2)}
-            </div>
-
-            <div class="row">
-                <span>Pulang</span>
-                ${tampil(x.pulang)}
-            </div>
-
+            ${isTerlambat ? '<div style="color:#facc15;font-weight:700;margin-top:5px;">TERLAMBAT</div>' : ''}
         </div>
-        `;
 
-    });
+        <div class="row">
+            <span>Masuk</span>
+            ${tampil(x.masuk)}
+        </div>
+
+        <div class="row">
+            <span>Istirahat 1</span>
+            ${tampil(x.istirahat1)}
+        </div>
+
+        <div class="row">
+            <span>Kembali 1</span>
+            ${tampil(x.kembali1)}
+        </div>
+
+        <div class="row">
+            <span>Istirahat 2</span>
+            ${tampil(x.istirahat2)}
+        </div>
+
+        <div class="row">
+            <span>Kembali 2</span>
+            ${tampil(x.kembali2)}
+        </div>
+
+        <div class="row">
+            <span>Pulang</span>
+            ${tampil(x.pulang)}
+        </div>
+
+    </div>
+    `;
+});
 
     if(data.length===0){
 
