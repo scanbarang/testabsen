@@ -295,6 +295,7 @@ async function cari(){
     const result = await res.json();
 
 const data = result.data || [];
+    isiBulan(data);
 const terlambat = result.terlambat || 0;
     data.sort(
         (a,b)=>
