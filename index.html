@@ -293,17 +293,13 @@ function isiBulan(data){
 
     bulanSet.forEach(bulan => {
 
-        const option =
-        document.createElement("option");
-
+        const option = document.createElement("option");
         option.value = bulan;
         option.textContent = bulan;
-
         select.appendChild(option);
 
     });
 
-}
 }
 
 async function cari(){
