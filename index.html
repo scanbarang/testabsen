@@ -277,9 +277,10 @@ async function cari(){
         encodeURIComponent(nama)
     );
 
-    const data =
-    await res.json();
+    const result = await res.json();
 
+const data = result.data || [];
+const terlambat = result.terlambat || 0;
     data.sort(
         (a,b)=>
         Number(a.tanggal)-Number(b.tanggal)
@@ -299,6 +300,7 @@ async function cari(){
         <div class="summary-card">
             <h2>👤 ${data[0].nama}</h2>
             <p>Total Hari Absen : <b>${data.length}</b></p>
+            <p>Belum Scan Pulang : <b>${belumPulang}</b></p>
             <p>Belum Scan Pulang : <b>${belumPulang}</b></p>
         </div>
         `;
