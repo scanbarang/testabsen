@@ -358,24 +358,7 @@ body{
 </style>
 </head>
 <body>
-<div id="loginBox">
 
-  <h2>LOGIN DASHBOARD</h2>
-
-  <input
-    id="loginNama"
-    placeholder="Nama Absen">
-
-  <input
-    id="loginPin"
-    type="password"
-    placeholder="PIN">
-
-  <button onclick="login()">
-    MASUK
-  </button>
-
-</div>
 <div class="header">
     <h1>UFO DASHBOARD</h1>
     <p>Absensi & Penjualan Promotor UFO Kebonsari</p>
@@ -833,45 +816,7 @@ document.getElementById("hasil").innerHTML = html;
 }
 
 loadNama();
-    async function login(){
-
-  const nama =
-    document.getElementById("loginNama")
-    .value
-    .trim();
-
-  const pin =
-    document.getElementById("loginPin")
-    .value
-    .trim();
-
-  const res = await fetch(
-    WEBAPP_URL +
-    "?action=login" +
-    "&nama=" + encodeURIComponent(nama) +
-    "&pin=" + encodeURIComponent(pin)
-  );
-
-  const data = await res.json();
-
-  if(data.success){
-
-    userLogin = data.nama;
-
-    document.getElementById("loginBox")
-      .style.display = "none";
-
-    document.getElementById("nama").innerHTML =
-      `<option value="${userLogin}">
-         ${userLogin}
-       </option>`;
-
-  }else{
-
-    alert("PIN Salah");
-
-  }
-}
+    
 // ================= LOGIN SYSTEM =================
 
 async function loadLoginNama(){
@@ -888,7 +833,7 @@ async function loadLoginNama(){
   document.getElementById("loginNama").innerHTML = html;
 }
 
-loadLoginNama();
+
 
 async function login(){
 
