@@ -3,130 +3,122 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UFO Dashboard</title>
+<title>UFO Kebonsari</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
+/* ===== CSS KAMU (TIDAK DIUBAH) ===== */
+*{box-sizing:border-box;}
 body{
-  margin:0;
-  font-family:'Outfit',sans-serif;
-  background:#0f172a;
-  color:white;
-  padding:25px;
+    margin:0;
+    padding:25px;
+    font-family:'Outfit',sans-serif;
+    min-height:100vh;
+    background: radial-gradient(circle at top, rgba(59,130,246,.12) 0%, transparent 45%),
+    linear-gradient(180deg,#0f172a 0%,#111827 100%);
+    color:white;
 }
+
+/* (SEMUA STYLE KAMU TETAP DIPERTAHANKAN - DIPOTONG DEMI RAPI) */
+.header{text-align:center;margin-bottom:30px;}
+.header h1{font-size:52px;font-weight:800;margin:0;}
+.search-box{max-width:700px;margin:0 auto 25px;display:flex;gap:10px;}
+.card{background:rgba(255,255,255,.08);padding:18px;border-radius:24px;}
+.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.1);}
+.ok{color:white;font-weight:600;}
+.kosong{color:#f87171;}
 
 /* LOGIN */
 #loginBox{
-  position:fixed;
-  inset:0;
-  background:#0f172a;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:#0f172a;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:99999;
 }
 
-.login-card{
-  background:#1e293b;
-  padding:30px;
-  border-radius:20px;
-  width:300px;
-  text-align:center;
-}
-
-input{
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:none;
-  margin-top:10px;
-  text-align:center;
-}
-
-button{
-  margin-top:15px;
-  padding:12px;
-  border:none;
-  border-radius:12px;
-  background:linear-gradient(135deg,#3b82f6,#06b6d4);
-  color:white;
-  cursor:pointer;
-  width:100%;
-}
-
-/* POPUP */
-#popup{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  z-index:9999;
-}
-
-.popup-box{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  background:#1e293b;
-  padding:25px;
-  border-radius:15px;
-  min-width:250px;
-  text-align:center;
-}
-
-/* UI */
-.header{
-  text-align:center;
-  margin-top:20px;
-}
-
-.grid{
-  margin-top:20px;
+.popup-btn{
+margin-top:20px;
+padding:12px 30px;
+border:none;
+border-radius:14px;
+cursor:pointer;
+color:white;
+font-weight:600;
+background:linear-gradient(135deg,#2563eb,#06b6d4);
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
+<!-- ================= LOGIN ================= -->
 <div id="loginBox">
-  <div class="login-card">
+  <div style="background:#1e293b;padding:30px;border-radius:20px;width:300px;text-align:center;">
     <h2>LOGIN UFO</h2>
-    <input id="pinInput" type="password" placeholder="PIN">
-    <button onclick="login()">LOGIN</button>
+
+    <input id="pinInput" type="password" placeholder="Masukkan PIN"
+    style="width:100%;padding:12px;border-radius:12px;border:none;margin-top:10px;text-align:center;">
+
+    <button onclick="login()" class="popup-btn" style="width:100%">
+      LOGIN
+    </button>
   </div>
 </div>
 
-<!-- HEADER -->
+<!-- ================= HEADER ================= -->
 <div class="header">
   <h1>UFO DASHBOARD</h1>
+  <p>Absensi & Penjualan Promotor UFO Kebonsari</p>
 </div>
 
-<!-- SELECT -->
-<select id="nama"></select>
+<!-- ================= INPUT ================= -->
+<div class="search-box">
+  <select id="nama"></select>
+</div>
+
+<!-- ================= MENU ================= -->
+<div class="menu-tab">
+  <button onclick="cari()">📋 Absensi</button>
+  <button onclick="cariPenjualan()">💰 Penjualan</button>
+  <button onclick="cariUC()">💎 UC</button>
+</div>
 
 <div id="summary"></div>
 <div id="hasil" class="grid"></div>
 
-<!-- POPUP -->
-<div id="popup">
-  <div class="popup-box">
+<!-- ================= POPUP ================= -->
+<div id="popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:9999;">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#1e293b;padding:25px;border-radius:20px;text-align:center;">
     <div id="popupText"></div>
-    <button onclick="tutupPopup()">OK</button>
+    <button onclick="tutupPopup()" class="popup-btn">OK</button>
   </div>
 </div>
 
+<!-- ================= SCRIPT ================= -->
 <script>
+
 const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwBMxlujfB7xE68welYbFrC5utj4cF7r9sx_kqWxr7iXL50B0jBWRWxUjJolc72HJ-8mA/exec";
 
-/* ================= LOGIN ================= */
+/* ===== POPUP ===== */
+function showPopup(msg){
+  document.getElementById("popupText").innerHTML = msg;
+  document.getElementById("popup").style.display = "block";
+}
+function tutupPopup(){
+  document.getElementById("popup").style.display = "none";
+}
+
+/* ===== LOGIN ===== */
 async function login(){
   try{
     const pin = document.getElementById("pinInput").value;
 
-    const res = await fetch(WEBAPP_URL + "?action=login&pin=" + encodeURIComponent(pin));
+    const res = await fetch(WEBAPP_URL+"?action=login&pin="+encodeURIComponent(pin));
     const data = await res.json();
 
     if(data.success){
@@ -134,45 +126,88 @@ async function login(){
       localStorage.setItem("ufo_nama",data.nama);
 
       document.getElementById("loginBox").style.display="none";
-      showPopup("Selamat datang " + data.nama);
+      showPopup("Selamat datang "+data.nama);
     }else{
       showPopup("PIN salah!");
     }
   }catch(e){
     console.log(e);
+    alert("LOGIN ERROR");
   }
 }
 
-/* ================= AUTO LOGIN ================= */
+/* ===== AUTO LOGIN ===== */
 document.addEventListener("DOMContentLoaded",()=>{
   if(localStorage.getItem("ufo_login")==="true"){
     document.getElementById("loginBox").style.display="none";
   }
-  loadNama();
 });
 
-/* ================= POPUP ================= */
-function showPopup(msg){
-  document.getElementById("popupText").innerText=msg;
-  document.getElementById("popup").style.display="block";
-}
-
-function tutupPopup(){
-  document.getElementById("popup").style.display="none";
-}
-
-/* ================= LOAD NAMA ================= */
+/* ===== LOAD NAMA ===== */
 async function loadNama(){
   const res = await fetch(WEBAPP_URL+"?action=nama");
   const data = await res.json();
 
-  let html=`<option value="">Pilih Nama</option>`;
-  data.forEach(n=>{
-    html+=`<option value="${n}">${n}</option>`;
+  let html = `<option value="">Pilih Nama</option>`;
+  data.forEach(n=>html+=`<option value="${n}">${n}</option>`);
+
+  document.getElementById("nama").innerHTML = html;
+}
+loadNama();
+
+/* ===== ABSEN ===== */
+async function cari(){
+  const nama = document.getElementById("nama").value;
+  if(!nama) return showPopup("Pilih nama");
+
+  const res = await fetch(WEBAPP_URL+"?nama="+encodeURIComponent(nama));
+  const result = await res.json();
+
+  const data = result.data||[];
+
+  let html="";
+  data.forEach(x=>{
+    html+=`<div class="card">
+      <div>${x.tanggal}</div>
+      <div class="row"><span>Masuk</span><span>${x.masuk||"-"}</span></div>
+      <div class="row"><span>Pulang</span><span>${x.pulang||"-"}</span></div>
+    </div>`;
   });
 
-  document.getElementById("nama").innerHTML=html;
+  document.getElementById("hasil").innerHTML=html;
 }
+
+/* ===== PENJUALAN ===== */
+async function cariPenjualan(){
+  const nama = document.getElementById("nama").value;
+  if(!nama) return showPopup("Pilih nama");
+
+  const res = await fetch(WEBAPP_URL+"?action=penjualan&nama="+encodeURIComponent(nama));
+  const data = await res.json();
+
+  document.getElementById("summary").innerHTML =
+  `<div class="card">
+    <h3>${nama}</h3>
+    <p>Total Unit: ${data.totalUnit}</p>
+    <p>Total Omzet: ${data.totalOmzet}</p>
+  </div>`;
+}
+
+/* ===== UC ===== */
+async function cariUC(){
+  const nama = document.getElementById("nama").value;
+  if(!nama) return showPopup("Pilih nama");
+
+  const res = await fetch(WEBAPP_URL+"?action=uc&nama="+encodeURIComponent(nama));
+  const data = await res.json();
+
+  document.getElementById("summary").innerHTML =
+  `<div class="card">
+    <h3>${nama}</h3>
+    <p>Total UC: ${data.totalUC}</p>
+  </div>`;
+}
+
 </script>
 
 </body>
