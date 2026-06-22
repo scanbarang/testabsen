@@ -832,101 +832,22 @@ document.getElementById("hasil").innerHTML = html;
 }
 
 loadNama();
-    async function login(){
+    async function login() {
+  const pin = document.getElementById("pinInput").value;
 
-  try {
+  const res = await fetch(WEBAPP_URL + "?action=login&pin=" + encodeURIComponent(pin));
+  const data = await res.json();
 
-    const pin = document.getElementById("pinInput").value;
+  if (data.success) {
+    localStorage.setItem("ufo_login", "true");
+    localStorage.setItem("ufo_nama", data.nama);
 
-    console.log("PIN:", pin);
-
-    const url = WEBAPP_URL + "?action=login&pin=" + encodeURIComponent(pin);
-
-    console.log("URL:", url);
-
-    const res = await fetch(url);
-
-    const text = await res.text();
-
-    console.log("RAW RESPONSE:", text);
-
-    const data = JSON.parse(text);
-
-    console.log("PARSED:", data);
-
-    if(data.success){
-
-      localStorage.setItem("ufo_login", "true");
-      localStorage.setItem("ufo_nama", data.nama);
-
-      document.getElementById("loginBox").style.display = "none";
-
-      showPopup("Selamat datang " + data.nama);
-
-    } else {
-      showPopup("PIN salah!");
-    }
-
-  } catch(err){
-
-    console.log("LOGIN ERROR:", err);
-    alert("LOGIN GAGAL - cek console");
-
+    document.getElementById("loginBox").style.display = "none";
+    showPopup("Selamat datang " + data.nama);
+  } else {
+    showPopup("PIN salah!");
   }
 }
-
-</script>
-window.onload = function(){
-
-  const login = localStorage.getItem("ufo_login");
-
-  if(login === "true"){
-    document.getElementById("loginBox").style.display = "none";
-  }
-
-};
-<div id="popup" style="
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.6);
-z-index:9999;
-">
-
-  <div style="
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  background:#1e293b;
-  color:white;
-  padding:25px;
-  border-radius:20px;
-  min-width:280px;
-  text-align:center;
-  ">
-
-    <div id="popupText"></div>
-
-    <button onclick="tutupPopup()" style="
-    margin-top:20px;
-    padding:10px 25px;
-    border:none;
-    border-radius:12px;
-    cursor:pointer;
-    color:white;
-    background:linear-gradient(135deg,#3b82f6,#06b6d4);
-    ">
-      OK
-    </button>
-
-  </div>
-
-</div>
-
 
 </body>
 </html>
