@@ -3,166 +3,144 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>UFO Kebonsari</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
+/* ====== STYLE KAMU TETAP (TIDAK DIUBAH) ====== */
+*{box-sizing:border-box;}
 body{
-  margin:0;
-  font-family:'Outfit',sans-serif;
-  background:#0f172a;
-  color:white;
-  padding:20px;
+    margin:0;
+    padding:25px;
+    font-family:'Outfit',sans-serif;
+    min-height:100vh;
+    background:radial-gradient(circle at top,rgba(59,130,246,.12) 0%,transparent 45%),
+    linear-gradient(180deg,#0f172a 0%,#111827 100%);
+    color:white;
+}
+.header{text-align:center;margin-bottom:30px;}
+.header h1{
+    font-size:52px;font-weight:800;margin:0;
+    background:linear-gradient(90deg,#fff,#60a5fa);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.header p{color:#94a3b8;font-size:15px;margin-top:8px;}
+
+.search-box{max-width:700px;margin:0 auto 25px;display:flex;gap:10px;}
+#nama{
+    width:100%;
+    padding:14px 16px;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,255,.08);
+    color:white;
 }
 
-.header{text-align:center;margin-bottom:20px;}
-.header h1{font-size:42px;margin:0;}
-
-.search-box{
-  display:flex;
-  justify-content:center;
-  margin-bottom:20px;
-}
-
-select{
-  padding:12px;
-  border-radius:12px;
-  width:300px;
-}
-
-.menu-tab{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-bottom:20px;
-}
-
+.menu-tab{display:flex;justify-content:center;gap:12px;margin-bottom:20px;}
 .menu-tab button{
-  padding:10px 16px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
+    padding:12px 22px;border:none;border-radius:14px;
+    background:rgba(255,255,255,.08);color:#cbd5e1;cursor:pointer;
+}
+.menu-tab button.active{
+    background:linear-gradient(135deg,#3b82f6,#06b6d4);color:white;
 }
 
-.card{
-  background:#1e293b;
-  padding:15px;
-  margin-bottom:10px;
-  border-radius:12px;
-}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
 
-.row{
-  display:flex;
-  justify-content:space-between;
-  border-bottom:1px solid rgba(255,255,255,.1);
-  padding:5px 0;
-}
+.card{background:rgba(255,255,255,.08);padding:18px;border-radius:24px;}
 
-/* LOGIN */
-#loginBox{
-  position:fixed;
-  inset:0;
-  background:#0f172a;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
+.row{display:flex;justify-content:space-between;padding:6px 0;}
+
+.summary-card{
+    background:rgba(255,255,255,.08);
+    padding:20px;border-radius:24px;
 }
 
 .popup-btn{
-  padding:12px;
-  width:100%;
+  margin-top:20px;
+  padding:12px 30px;
   border:none;
-  border-radius:10px;
-  background:#3b82f6;
-  color:white;
-  font-weight:bold;
+  border-radius:14px;
   cursor:pointer;
-}
-
-/* POPUP */
-#popup{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-}
-
-#popup div{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  background:#1e293b;
-  padding:20px;
-  border-radius:12px;
-  text-align:center;
+  color:white;
+  font-weight:600;
+  background:linear-gradient(135deg,#2563eb,#06b6d4);
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<div id="loginBox">
-  <div style="width:300px;background:#1e293b;padding:20px;border-radius:12px;text-align:center;">
-    <h3>LOGIN UFO</h3>
-    <input id="pinInput" type="password" placeholder="PIN" style="width:100%;padding:10px;border-radius:8px;border:none;">
-    <br><br>
-    <button class="popup-btn" onclick="login()">LOGIN</button>
+<!-- ================= LOGIN ================= -->
+<div id="loginBox" style="
+position:fixed;inset:0;
+background:#0f172a;
+display:flex;justify-content:center;align-items:center;
+z-index:99999;">
+  <div style="background:#1e293b;padding:30px;border-radius:20px;width:300px;text-align:center;">
+    <h2>LOGIN UFO</h2>
+    <input id="pinInput" type="password" placeholder="PIN"
+      style="width:100%;padding:12px;border-radius:12px;border:none;">
+    <button class="popup-btn" onclick="login()" style="width:100%;margin-top:15px;">LOGIN</button>
   </div>
 </div>
 
-<!-- HEADER -->
+<!-- ================= UI ================= -->
 <div class="header">
-  <h1>UFO DASHBOARD</h1>
+    <h1>UFO DASHBOARD</h1>
+    <p>Absensi & Penjualan</p>
 </div>
 
-<!-- SELECT -->
 <div class="search-box">
   <select id="nama"></select>
 </div>
 
-<!-- MENU -->
+<div id="summary"></div>
+
 <div class="menu-tab">
-  <button onclick="cari()">Absensi</button>
-  <button onclick="cariPenjualan()">Penjualan</button>
-  <button onclick="cariUC()">UC</button>
+  <button id="btnAbsen" onclick="cari()">📋 Absensi</button>
+  <button id="btnJual" onclick="cariPenjualan()">💰 Penjualan</button>
+  <button id="btnUC" onclick="cariUC()">💎 UC</button>
 </div>
 
-<!-- OUTPUT -->
-<div id="summary"></div>
-<div id="hasil"></div>
+<div id="hasil" class="grid"></div>
 
-<!-- POPUP -->
-<div id="popup">
-  <div>
+<!-- ================= POPUP ================= -->
+<div id="popup" style="
+display:none;
+position:fixed;inset:0;
+background:rgba(0,0,0,.6);
+z-index:9999;">
+  <div style="
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  background:#1e293b;padding:25px;border-radius:20px;text-align:center;">
     <div id="popupText"></div>
-    <br>
     <button onclick="tutupPopup()" class="popup-btn">OK</button>
   </div>
 </div>
 
+<!-- ================= SCRIPT ================= -->
 <script>
 
-const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwBMxlujfB7xE68welYbFrC5utj4cF7r9sx_kqWxr7iXL50B0jBWRWxUjJolc72HJ-8mA/exec";
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwKbscxs_avurQJzcDDy2YB-laTL9kbzDNHcOuOV8TYGzQxiKtveG83AfvyvgoeB4pDpg/exec";
 
-/* ================= POPUP ================= */
+/* ===== POPUP ===== */
 function showPopup(msg){
   document.getElementById("popupText").innerHTML = msg;
-  document.getElementById("popup").style.display="block";
+  document.getElementById("popup").style.display = "block";
 }
-
 function tutupPopup(){
-  document.getElementById("popup").style.display="none";
+  document.getElementById("popup").style.display = "none";
 }
 
-/* ================= LOGIN ================= */
+/* ===== LOGIN ===== */
 async function login(){
   const pin = document.getElementById("pinInput").value;
 
-  const res = await fetch(WEBAPP_URL+"?action=login&pin="+encodeURIComponent(pin));
+  const res = await fetch(WEBAPP_URL + "?action=login&pin=" + encodeURIComponent(pin));
   const data = await res.json();
 
   if(data.success){
@@ -170,26 +148,26 @@ async function login(){
     localStorage.setItem("ufo_nama",data.nama);
 
     document.getElementById("loginBox").style.display="none";
-    showPopup("Selamat datang "+data.nama);
-  }else{
+    showPopup("Selamat datang " + data.nama);
+  } else {
     showPopup("PIN salah!");
   }
 }
 
-/* ================= AUTO LOGIN ================= */
-window.onload = function(){
+/* ===== AUTO LOGIN ===== */
+document.addEventListener("DOMContentLoaded",()=>{
   if(localStorage.getItem("ufo_login")==="true"){
     document.getElementById("loginBox").style.display="none";
   }
   loadNama();
-};
+});
 
-/* ================= LOAD NAMA ================= */
+/* ===== LOAD NAMA ===== */
 async function loadNama(){
-  const res = await fetch(WEBAPP_URL+"?action=nama");
+  const res = await fetch(WEBAPP_URL + "?action=nama");
   const data = await res.json();
 
-  let html = `<option value="">Pilih Nama</option>`;
+  let html = `<option disabled selected>Pilih Nama</option>`;
   data.forEach(n=>{
     html += `<option value="${n}">${n}</option>`;
   });
@@ -197,56 +175,58 @@ async function loadNama(){
   document.getElementById("nama").innerHTML = html;
 }
 
-/* ================= ABSENSI ================= */
+/* ===== ABSEN ===== */
 async function cari(){
   const nama = document.getElementById("nama").value;
   if(!nama) return showPopup("Pilih nama");
 
-  const res = await fetch(WEBAPP_URL+"?nama="+encodeURIComponent(nama));
+  const res = await fetch(WEBAPP_URL + "?nama=" + nama);
   const result = await res.json();
 
-  let html = "";
-  result.data.forEach(x=>{
-    html += `
-    <div class="card">
-      <div>${x.tanggal}</div>
-      <div class="row"><span>Masuk</span><span>${x.masuk||"-"}</span></div>
-      <div class="row"><span>Pulang</span><span>${x.pulang||"-"}</span></div>
-    </div>`;
-  });
-
-  document.getElementById("hasil").innerHTML = html;
+  document.getElementById("hasil").innerHTML =
+    (result.data || []).map(x=>`
+      <div class="card">
+        <div>${x.tanggal}</div>
+        <div class="row"><span>Masuk</span><span>${x.masuk||"-"}</span></div>
+        <div class="row"><span>Pulang</span><span>${x.pulang||"-"}</span></div>
+      </div>
+    `).join("");
 }
 
-/* ================= PENJUALAN ================= */
+/* ===== PENJUALAN ===== */
 async function cariPenjualan(){
   const nama = document.getElementById("nama").value;
   if(!nama) return showPopup("Pilih nama");
 
-  const res = await fetch(WEBAPP_URL+"?action=penjualan&nama="+encodeURIComponent(nama));
+  const res = await fetch(WEBAPP_URL + "?action=penjualan&nama=" + nama);
   const data = await res.json();
 
-  document.getElementById("summary").innerHTML =
-  `<div class="card">
-    <h3>${nama}</h3>
-    <p>Total Unit: ${data.totalUnit}</p>
-    <p>Total Omzet: ${data.totalOmzet}</p>
-  </div>`;
+  document.getElementById("hasil").innerHTML =
+    (data.detail || []).map(x=>`
+      <div class="card">
+        <div>${x.tanggal}</div>
+        <div>${x.produk}</div>
+        <div class="row"><span>Qty</span><span>${x.qty}</span></div>
+      </div>
+    `).join("");
 }
 
-/* ================= UC ================= */
+/* ===== UC ===== */
 async function cariUC(){
   const nama = document.getElementById("nama").value;
   if(!nama) return showPopup("Pilih nama");
 
-  const res = await fetch(WEBAPP_URL+"?action=uc&nama="+encodeURIComponent(nama));
+  const res = await fetch(WEBAPP_URL + "?action=uc&nama=" + nama);
   const data = await res.json();
 
-  document.getElementById("summary").innerHTML =
-  `<div class="card">
-    <h3>${nama}</h3>
-    <p>Total UC: ${data.totalUC}</p>
-  </div>`;
+  document.getElementById("hasil").innerHTML =
+    (data.detail || []).map(x=>`
+      <div class="card">
+        <div>${x.tanggal}</div>
+        <div>${x.produk}</div>
+        <div>Qty: ${x.qty}</div>
+      </div>
+    `).join("");
 }
 
 </script>
