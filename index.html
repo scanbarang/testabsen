@@ -358,7 +358,24 @@ body{
 </style>
 </head>
 <body>
+<div id="loginBox">
 
+  <h2>LOGIN DASHBOARD</h2>
+
+  <input
+    id="loginNama"
+    placeholder="Nama Absen">
+
+  <input
+    id="loginPin"
+    type="password"
+    placeholder="PIN">
+
+  <button onclick="login()">
+    MASUK
+  </button>
+
+</div>
 <div class="header">
     <h1>UFO DASHBOARD</h1>
     <p>Absensi & Penjualan Promotor UFO Kebonsari</p>
@@ -392,6 +409,14 @@ body{
 </button>
 </div>
 <div id="hasil" class="grid"></div>
+    let isLogin = false;
+    function cekLogin() {
+  if (!isLogin) {
+    showPopup("Silakan login terlebih dahulu");
+    return false;
+  }
+  return true;
+}
 <script>
 window.onload = function(){
 
@@ -410,7 +435,7 @@ window.onload = function(){
 };
 const WEBAPP_URL =
 "https://script.google.com/macros/s/AKfycbwBMxlujfB7xE68welYbFrC5utj4cF7r9sx_kqWxr7iXL50B0jBWRWxUjJolc72HJ-8mA/exec";
-
+let userLogin = "";
 function tampil(v){
 
     return (v && v.trim() !== "")
@@ -725,7 +750,7 @@ async function loadNama(){
   document.getElementById("nama").innerHTML = html;
 }
 
-loadNama();
+
 async function cariUC(){
 
 document.getElementById("btnAbsen")
@@ -808,6 +833,45 @@ document.getElementById("hasil").innerHTML = html;
 }
 
 loadNama();
+    async function login(){
+
+  const nama =
+    document.getElementById("loginNama")
+    .value
+    .trim();
+
+  const pin =
+    document.getElementById("loginPin")
+    .value
+    .trim();
+
+  const res = await fetch(
+    WEBAPP_URL +
+    "?action=login" +
+    "&nama=" + encodeURIComponent(nama) +
+    "&pin=" + encodeURIComponent(pin)
+  );
+
+  const data = await res.json();
+
+  if(data.success){
+
+    userLogin = data.nama;
+
+    document.getElementById("loginBox")
+      .style.display = "none";
+
+    document.getElementById("nama").innerHTML =
+      `<option value="${userLogin}">
+         ${userLogin}
+       </option>`;
+
+  }else{
+
+    alert("PIN Salah");
+
+  }
+}
 // ================= LOGIN SYSTEM =================
 
 async function loadLoginNama(){
