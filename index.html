@@ -358,7 +358,45 @@ body{
 </style>
 </head>
 <body>
+<div id="loginBox" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#0f172a;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:99999;
+">
 
+  <div style="
+    background:#1e293b;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    width:300px;
+  ">
+
+    <h2>LOGIN UFO</h2>
+
+    <input id="pinInput" type="password" placeholder="Masukkan PIN" style="
+      width:100%;
+      padding:12px;
+      border-radius:12px;
+      border:none;
+      margin-top:10px;
+      text-align:center;
+    ">
+
+    <button onclick="login()" class="popup-btn" style="width:100%; margin-top:15px;">
+      LOGIN
+    </button>
+
+  </div>
+
+</div>
 <div class="header">
     <h1>UFO DASHBOARD</h1>
     <p>Absensi & Penjualan Promotor UFO Kebonsari</p>
@@ -794,9 +832,35 @@ document.getElementById("hasil").innerHTML = html;
 }
 
 loadNama();
+    async function login(){
+
+  const pin = document.getElementById("pinInput").value;
+
+  const res = await fetch(WEBAPP_URL + "?action=login&pin=" + pin);
+  const data = await res.json();
+
+  if(data.success){
+
+    localStorage.setItem("ufo_login", "true");
+    localStorage.setItem("ufo_nama", data.nama);
+
+    document.getElementById("loginBox").style.display = "none";
+
+  } else {
+    showPopup("PIN salah!");
+  }
+}
 
 </script>
+window.onload = function(){
 
+  const login = localStorage.getItem("ufo_login");
+
+  if(login === "true"){
+    document.getElementById("loginBox").style.display = "none";
+  }
+
+};
 <div id="popup" style="
 display:none;
 position:fixed;
