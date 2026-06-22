@@ -831,8 +831,14 @@ html += `
 document.getElementById("hasil").innerHTML = html;
 }
 
+<script>
+
 loadNama();
-    async function login(){
+
+// ======================
+// LOGIN FUNCTION
+// ======================
+async function login(){
 
   try {
 
@@ -856,10 +862,13 @@ loadNama();
 
     if(data.success){
 
+      // simpan session
       localStorage.setItem("ufo_login", "true");
       localStorage.setItem("ufo_nama", data.nama);
 
-      document.getElementById("loginBox").style.display = "none";
+      // sembunyikan login box
+      const box = document.getElementById("loginBox");
+      if(box) box.style.display = "none";
 
       showPopup("Selamat datang " + data.nama);
 
@@ -874,59 +883,39 @@ loadNama();
 
   }
 }
-window.onload = function(){
+
+// ======================
+// AUTO LOGIN CHECK
+// ======================
+document.addEventListener("DOMContentLoaded", function(){
 
   const login = localStorage.getItem("ufo_login");
 
   if(login === "true"){
-    document.getElementById("loginBox").style.display = "none";
+
+    const box = document.getElementById("loginBox");
+    if(box) box.style.display = "none";
+
   }
 
-};
+});
+
+// ======================
+// POPUP SYSTEM
+// ======================
+function showPopup(pesan){
+
+  const el = document.getElementById("popupText");
+  if(el) el.innerHTML = pesan;
+
+  const popup = document.getElementById("popup");
+  if(popup) popup.style.display = "block";
+}
+
+function tutupPopup(){
+
+  const popup = document.getElementById("popup");
+  if(popup) popup.style.display = "none";
+}
+
 </script>
-
-<div id="popup" style="
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.6);
-z-index:9999;
-">
-
-  <div style="
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  background:#1e293b;
-  color:white;
-  padding:25px;
-  border-radius:20px;
-  min-width:280px;
-  text-align:center;
-  ">
-
-    <div id="popupText"></div>
-
-    <button onclick="tutupPopup()" style="
-    margin-top:20px;
-    padding:10px 25px;
-    border:none;
-    border-radius:12px;
-    cursor:pointer;
-    color:white;
-    background:linear-gradient(135deg,#3b82f6,#06b6d4);
-    ">
-      OK
-    </button>
-
-  </div>
-
-</div>
-
-
-</body>
-</html>
