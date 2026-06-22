@@ -393,7 +393,21 @@ body{
 </div>
 <div id="hasil" class="grid"></div>
 <script>
+window.onload = function(){
 
+  const user = localStorage.getItem("ufo_user");
+
+  if(user){
+
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("nama").value = user;
+
+  } else {
+
+    document.getElementById("loginBox").style.display = "flex";
+
+  }
+};
 const WEBAPP_URL =
 "https://script.google.com/macros/s/AKfycbwBMxlujfB7xE68welYbFrC5utj4cF7r9sx_kqWxr7iXL50B0jBWRWxUjJolc72HJ-8mA/exec";
 
@@ -794,7 +808,58 @@ document.getElementById("hasil").innerHTML = html;
 }
 
 loadNama();
+// ================= LOGIN SYSTEM =================
 
+async function loadLoginNama(){
+
+  const res = await fetch(WEBAPP_URL + "?action=nama");
+  const data = await res.json();
+
+  let html = `<option value="" disabled selected>Pilih Nama</option>`;
+
+  data.forEach(n => {
+    html += `<option value="${n}">${n}</option>`;
+  });
+
+  document.getElementById("loginNama").innerHTML = html;
+}
+
+loadLoginNama();
+
+async function login(){
+
+  const nama = document.getElementById("loginNama").value;
+  const pin = document.getElementById("loginPin").value;
+
+  if(!nama || !pin){
+    alert("Lengkapi login dulu");
+    return;
+  }
+
+  const res = await fetch(
+    WEBAPP_URL +
+    "?action=cekpin&nama=" +
+    encodeURIComponent(nama) +
+    "&pin=" +
+    encodeURIComponent(pin)
+  );
+
+  const result = await res.json();
+
+  if(result.success){
+
+    // simpan user aktif
+    localStorage.setItem("ufo_user", nama);
+
+    document.getElementById("loginBox").style.display = "none";
+
+    // isi dropdown utama otomatis
+    document.getElementById("nama").value = nama;
+
+  } else {
+    alert("PIN SALAH");
+  }
+}
 </script>
 
 <div id="popup" style="
