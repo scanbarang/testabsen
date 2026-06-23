@@ -1034,13 +1034,12 @@ async function cariPerolehan() {
   document.getElementById("btnUC").classList.remove("active");
   document.getElementById("btnPerolehan").classList.add("active");
 
- let nama = currentRole === "USER"
-  ? currentUser
-  : document.getElementById("nama").value.trim();
+let nama = "";
 
-if (!nama && currentRole !== "USER") {
-  showPopup("Pilih nama terlebih dahulu");
-  return;
+if (document.getElementById("nama").value) {
+  nama = document.getElementById("nama").value.trim();
+} else {
+  nama = currentSales; // default selalu pakai sales login
 }
 
   const res = await fetch(
