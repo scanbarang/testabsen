@@ -1057,23 +1057,41 @@ async function cariPerolehan() {
     </div>
   `;
 
- let html = `
-  <div class="summary-card">
-`;
+let html = `<div class="summary-card">`;
 
 data.list.forEach((x, i) => {
   html += `
-    <div class="row" style="padding:12px 0;">
-      <span><b>${i + 1}. ${x.nama}</b></span>
-      <span>Rp ${Number(x.omzet || 0).toLocaleString("id-ID")}</span>
+    <div style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:12px 0;
+      border-bottom:1px solid rgba(255,255,255,.1);
+    ">
+      <div style="
+        flex:1;
+        font-weight:600;
+        padding-right:10px;
+      ">
+        ${i + 1}. ${x.nama}
+      </div>
+
+      <div style="
+        min-width:140px;
+        text-align:right;
+        font-weight:700;
+        white-space:nowrap;
+      ">
+        Rp ${Number(x.omzet || 0).toLocaleString("id-ID")}
+      </div>
     </div>
   `;
 });
 
 html += `</div>`;
+
 document.getElementById("hasil").className = "";
 document.getElementById("hasil").innerHTML = html;
-}
 loadNama();
 
 </script>
