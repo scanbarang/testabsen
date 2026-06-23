@@ -515,7 +515,9 @@ if (currentRole === "USER") {
 localStorage.setItem("loginRole", currentRole);   
 }
   function logout() {
-
+if (!confirm("Yakin ingin logout?")) {
+  return;
+}
   currentUser = "";
   currentRole = "";
 
