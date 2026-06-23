@@ -1026,7 +1026,13 @@ document.getElementById("hasil").innerHTML = html;
 }
 async function cariPerolehan() {
 
-  showPopup("Fitur Perolehan sedang disiapkan.");
+  const res = await fetch(
+    WEBAPP_URL + "?action=perolehan"
+  );
+
+  const data = await res.json();
+
+  showPopup("Server merespons: " + data.status);
 
 }
 loadNama();
