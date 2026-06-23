@@ -355,58 +355,6 @@ body{
 .popup-btn:hover{
   transform:translateY(-2px);
 }
- #logoutPopup{
-  display:none;
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,.65);
-  z-index:99999;
-}
-
-#logoutBox{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  background:#1e293b;
-  padding:25px;
-  border-radius:20px;
-  min-width:300px;
-  text-align:center;
-  border:1px solid rgba(255,255,255,.1);
-}
-
-#logoutBox h3{
-  margin-top:0;
-  color:white;
-}
-
-#logoutBox p{
-  color:#cbd5e1;
-  margin:15px 0 20px;
-}
-
-#btnBatal,
-#btnLogoutConfirm{
-  border:none;
-  padding:10px 20px;
-  border-radius:12px;
-  cursor:pointer;
-  color:white;
-  font-weight:600;
-  margin:5px;
-}
-
-#btnBatal{
-  background:#3b82f6;
-}
-
-#btnLogoutConfirm{
-  background:#dc2626;
-}   
 </style>
 </head>
 <body>
@@ -471,30 +419,7 @@ LOGIN
     <h1>UFO DASHBOARD</h1>
     <p>Absensi & Penjualan Promotor UFO Kebonsari</p>
 </div>
- <div id="loginInfo" style="
-  display:inline-block;
-  margin:12px auto 20px;
-  padding:10px 18px;
-  border-radius:999px;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.12);
-  color:#e2e8f0;
-  font-size:14px;
-  font-weight:600;
-"></div>
-<div style="text-align:right;margin-bottom:15px;">
-  <button onclick="logout()" style="
-    padding:10px 18px;
-    border:none;
-    border-radius:12px;
-    cursor:pointer;
-    color:white;
-    background:#dc2626;
-    font-weight:600;
-  ">
-    🚪 Logout
-  </button>
-</div>
+
 <div class="search-box">
   <select id="nama"></select>
 </div>
@@ -519,19 +444,14 @@ LOGIN
 <button onclick="cariUC()" id="btnUC">
   💎 UC
 </button>
-   <button onclick="cariPerolehan()" id="btnPerolehan">
-  📊 Perolehan
-</button> 
 </div>
 <div id="hasil" class="grid"></div>
 <script>
-let currentUser = "";
-let currentSales = "";
-let currentRole = "";
+
 const WEBAPP_URL =
-"https://script.google.com/macros/s/AKfycbwBMxlujfB7xE68welYbFrC5utj4cF7r9sx_kqWxr7iXL50B0jBWRWxUjJolc72HJ-8mA/exec";
-
-
+"https://script.google.com/macros/s/AKfycbwKbscxs_avurQJzcDDy2YB-laTL9kbzDNHcOuOV8TYGzQxiKtveG83AfvyvgoeB4pDpg/exec";
+let currentUser = "";
+let currentRole = "";
 
 async function login() {
 
@@ -565,60 +485,15 @@ async function login() {
     return;
   }
 
-  currentUser = data.namaAbsen;
-currentSales = data.namaSales;
+  currentUser = data.nama;
   currentRole = data.role;
-    document.getElementById("loginInfo").innerHTML =
-  "👤 Login sebagai: <b>" +
-  currentUser +
-  "</b>" +
-  (currentRole === "ADMIN" ? " (ADMIN)" : "");
+
   document.getElementById("loginBox").style.display = "none";
   document.getElementById("dashboard").style.display = "block";
-if (currentRole === "USER") {
-  document.querySelector(".search-box").style.display = "none";
-} else {
-  document.querySelector(".search-box").style.display = "block";
-}
+
   showPopup("Login berhasil. Selamat datang " + currentUser);
-if (currentRole === "USER") {
-  cari();
-}
- localStorage.setItem("loginNama", currentUser);
-localStorage.setItem("loginRole", currentRole);   
-}
- function logout() {
-
-  document.getElementById("logoutPopup").style.display = "block";
 
 }
-
-function tutupLogout() {
-
-  document.getElementById("logoutPopup").style.display = "none";
-
-}
-
-function logoutConfirm() {
-
-  document.getElementById("logoutPopup").style.display = "none";
-
-  currentUser = "";
-  currentRole = "";
-
-  document.getElementById("dashboard").style.display = "none";
-  document.getElementById("loginBox").style.display = "block";
-
-  document.getElementById("loginNama").value = "";
-  document.getElementById("loginPin").value = "";
-
-  document.getElementById("summary").innerHTML = "";
-  document.getElementById("hasil").innerHTML = "";
-
-  localStorage.removeItem("loginNama");
-  localStorage.removeItem("loginRole");
-localStorage.removeItem("sessionToken");
-}    
 function tampil(v){
 
     return (v && v.trim() !== "")
@@ -638,13 +513,9 @@ document.getElementById("btnUC")
     document.getElementById("btnAbsen")
     .classList.add("active");
 
-    let nama;
+    const nama =
+    document.getElementById("nama").value.trim();
 
-if (currentRole === "USER") {
-  nama = currentUser;
-} else {
-  nama = document.getElementById("nama").value.trim();
-}
     if(!nama){
     showPopup("Pilih nama terlebih dahulu");
     return;
@@ -777,13 +648,9 @@ document.getElementById("btnAbsen")
 
 document.getElementById("btnJual")
 .classList.add("active");
-  let nama;
+  const nama =
+    document.getElementById("nama").value.trim();
 
-if (currentRole === "USER") {
-  nama = currentUser;
-} else {
-  nama = document.getElementById("nama").value.trim();
-}
   if(!nama){
     showPopup("Pilih nama terlebih dahulu");
     return;
@@ -953,13 +820,8 @@ document.getElementById("btnJual")
 document.getElementById("btnUC")
 .classList.add("active");
 
-let nama;
-
-if (currentRole === "USER") {
-  nama = currentUser;
-} else {
-  nama = document.getElementById("nama").value.trim();
-}
+const nama =
+document.getElementById("nama").value.trim();
 
 if(!nama){
 showPopup("Pilih nama terlebih dahulu");
@@ -1027,67 +889,7 @@ html += `
 
 document.getElementById("hasil").innerHTML = html;
 }
-async function cariPerolehan() {
 
-  document.getElementById("btnAbsen").classList.remove("active");
-  document.getElementById("btnJual").classList.remove("active");
-  document.getElementById("btnUC").classList.remove("active");
-  document.getElementById("btnPerolehan").classList.add("active");
-
-let nama = "";
-
-if (document.getElementById("nama").value) {
-  nama = document.getElementById("nama").value.trim();
-} else {
-  nama = currentSales; // default selalu pakai sales login
-}
-
-  const res = await fetch(
-    WEBAPP_URL +
-    "?action=perolehan&nama=" +
-    encodeURIComponent(nama)
-  );
-
-  const data = await res.json();
-
-  // =========================
-  // AMBIL DATA USER (WAJIB PAKAI SALES)
-  // =========================
-  let user = data.list.find(x =>
-    x.nama === currentSales
-  ) || { omzet: 0 };
-
-  // =========================
-  // SUMMARY
-  // =========================
-  document.getElementById("summary").innerHTML = `
-    <div class="summary-card">
-      <h2>📊 Perolehan</h2>
-
-      <p>👤 ${currentUser}</p>
-
-      <p>💰 Total Omzet :
-        <b>Rp ${Number(user.omzet || 0).toLocaleString("id-ID")}</b>
-      </p>
-    </div>
-  `;
-
-  // =========================
-  // LEADERBOARD
-  // =========================
-  let html = "";
-
-  data.list.forEach((x, i) => {
-    html += `
-      <div class="card">
-        <div><b>${i + 1}. ${x.nama}</b></div>
-        <div>Rp ${Number(x.omzet || 0).toLocaleString("id-ID")}</div>
-      </div>
-    `;
-  });
-
-  document.getElementById("hasil").innerHTML = html;
-}
 loadNama();
 
 </script>
@@ -1135,19 +937,5 @@ z-index:9999;
 </div>
 
 </div>
-  <div id="logoutPopup" style="display:none;">
-  <div id="logoutBox">
-    <h3>🚪 Logout</h3>
-    <p>Yakin ingin logout?</p>
-
-    <button id="btnBatal" onclick="tutupLogout()">
-      Batal
-    </button>
-
-    <button id="btnLogoutConfirm" onclick="logoutConfirm()">
-      Logout
-    </button>
-  </div>
-</div>  
 </body>
 </html>
