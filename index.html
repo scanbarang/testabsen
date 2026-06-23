@@ -551,7 +551,7 @@ async function login() {
 
   currentUser = data.nama;
   currentRole = data.role;
-
+localStorage.setItem("sessionToken", result.sessionToken);
   document.getElementById("loginBox").style.display = "none";
   document.getElementById("dashboard").style.display = "block";
 if (currentRole === "USER") {
@@ -596,7 +596,7 @@ function logoutConfirm() {
 
   localStorage.removeItem("loginNama");
   localStorage.removeItem("loginRole");
-
+localStorage.removeItem("sessionToken");
 }    
 function tampil(v){
 
