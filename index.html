@@ -558,7 +558,6 @@ async function login() {
 
   currentUser = data.nama;
   currentRole = data.role;
-localStorage.setItem("sessionToken", result.sessionToken);
     document.getElementById("loginInfo").innerHTML =
   "👤 Login sebagai: <b>" +
   currentUser +
