@@ -1026,13 +1026,23 @@ document.getElementById("hasil").innerHTML = html;
 }
 async function cariPerolehan() {
 
+  let nama;
+
+  if (currentRole === "USER") {
+    nama = currentUser;
+  } else {
+    nama = document.getElementById("nama").value.trim();
+  }
+
   const res = await fetch(
-    WEBAPP_URL + "?action=perolehan"
+    WEBAPP_URL +
+    "?action=perolehan&nama=" +
+    encodeURIComponent(nama)
   );
 
   const data = await res.json();
 
-  showPopup("Server merespons: " + data.status);
+  showPopup("Nama yang dikirim: " + nama);
 
 }
 loadNama();
