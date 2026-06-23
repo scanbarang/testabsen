@@ -525,13 +525,11 @@ LOGIN
 </div>
 <div id="hasil" class="grid"></div>
 <script>
-let currentUser = "";
-let currentSales = "";
-let currentRole = "";
+
 const WEBAPP_URL =
 "https://script.google.com/macros/s/AKfycbwBMxlujfB7xE68welYbFrC5utj4cF7r9sx_kqWxr7iXL50B0jBWRWxUjJolc72HJ-8mA/exec";
-
-
+let currentUser = "";
+let currentRole = "";
 
 async function login() {
 
@@ -565,8 +563,7 @@ async function login() {
     return;
   }
 
-  currentUser = data.namaAbsen;
-currentSales = data.namaSales;
+  currentUser = nama;
   currentRole = data.role;
     document.getElementById("loginInfo").innerHTML =
   "👤 Login sebagai: <b>" +
@@ -1034,13 +1031,18 @@ async function cariPerolehan() {
   document.getElementById("btnUC").classList.remove("active");
   document.getElementById("btnPerolehan").classList.add("active");
 
-let nama = "";
+  let nama;
 
-if (document.getElementById("nama").value) {
-  nama = document.getElementById("nama").value.trim();
-} else {
-  nama = currentSales; // default selalu pakai sales login
-}
+  if (currentRole === "USER") {
+    nama = currentUser;
+  } else {
+    nama = document.getElementById("nama").value.trim();
+  }
+
+  if (!nama) {
+    showPopup("Pilih nama terlebih dahulu");
+    return;
+  }
 
   const res = await fetch(
     WEBAPP_URL +
@@ -1050,43 +1052,25 @@ if (document.getElementById("nama").value) {
 
   const data = await res.json();
 
-  // =========================
-  // AMBIL DATA USER (WAJIB PAKAI SALES)
-  // =========================
-  let user = data.list.find(x =>
-    x.nama === currentSales
-  ) || { omzet: 0 };
-
-  // =========================
-  // SUMMARY
-  // =========================
+  // ===== SUMMARY =====
   document.getElementById("summary").innerHTML = `
     <div class="summary-card">
       <h2>📊 Perolehan</h2>
 
-      <p>👤 ${currentUser}</p>
+      <p>👤 ${data.nama}</p>
 
       <p>💰 Total Omzet :
-        <b>Rp ${Number(user.omzet || 0).toLocaleString("id-ID")}</b>
+        <b>Rp ${Number(data.omzet).toLocaleString("id-ID")}</b>
+      </p>
+
+      <p>🏅 Posisi :
+        <b>${data.posisi} dari ${data.total}</b>
       </p>
     </div>
   `;
 
-  // =========================
-  // LEADERBOARD
-  // =========================
-  let html = "";
-
-  data.list.forEach((x, i) => {
-    html += `
-      <div class="card">
-        <div><b>${i + 1}. ${x.nama}</b></div>
-        <div>Rp ${Number(x.omzet || 0).toLocaleString("id-ID")}</div>
-      </div>
-    `;
-  });
-
-  document.getElementById("hasil").innerHTML = html;
+  // kosongkan grid bawah
+  document.getElementById("hasil").innerHTML = "";
 }
 loadNama();
 
