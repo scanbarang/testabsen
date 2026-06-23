@@ -450,7 +450,50 @@ LOGIN
 
 const WEBAPP_URL =
 "https://script.google.com/macros/s/AKfycbwKbscxs_avurQJzcDDy2YB-laTL9kbzDNHcOuOV8TYGzQxiKtveG83AfvyvgoeB4pDpg/exec";
+let currentUser = "";
+let currentRole = "";
 
+async function login() {
+
+  const nama = document
+    .getElementById("loginNama")
+    .value
+    .trim();
+
+  const pin = document
+    .getElementById("loginPin")
+    .value
+    .trim();
+
+  if (!nama || !pin) {
+    showPopup("Nama dan PIN harus diisi.");
+    return;
+  }
+
+  const res = await fetch(
+    WEBAPP_URL +
+    "?action=login&nama=" +
+    encodeURIComponent(nama) +
+    "&pin=" +
+    encodeURIComponent(pin)
+  );
+
+  const data = await res.json();
+
+  if (!data.success) {
+    showPopup("Nama atau PIN salah.");
+    return;
+  }
+
+  currentUser = data.nama;
+  currentRole = data.role;
+
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("dashboard").style.display = "block";
+
+  showPopup("Login berhasil. Selamat datang " + currentUser);
+
+}
 function tampil(v){
 
     return (v && v.trim() !== "")
