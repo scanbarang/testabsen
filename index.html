@@ -1034,12 +1034,10 @@ async function cariPerolehan() {
   const res = await fetch(WEBAPP_URL + "?action=perolehan");
   const data = await res.json();
 
-  // Cari data user berdasarkan Nama Absen
   const user = data.list.find(
     x => (x.nama || "").toUpperCase() === (currentUser || "").toUpperCase()
   );
 
-  // Hitung posisi
   const posisi = user
     ? data.list.findIndex(
         x => (x.nama || "").toUpperCase() === (currentUser || "").toUpperCase()
