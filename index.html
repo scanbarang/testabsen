@@ -1026,13 +1026,51 @@ document.getElementById("hasil").innerHTML = html;
 }
 async function cariPerolehan() {
 
+  document.getElementById("btnAbsen").classList.remove("active");
+  document.getElementById("btnJual").classList.remove("active");
+  document.getElementById("btnUC").classList.remove("active");
+  document.getElementById("btnPerolehan").classList.add("active");
+
+  let nama;
+
+  if (currentRole === "USER") {
+    nama = currentUser;
+  } else {
+    nama = document.getElementById("nama").value.trim();
+  }
+
+  if (!nama) {
+    showPopup("Pilih nama terlebih dahulu");
+    return;
+  }
+
   const res = await fetch(
-    WEBAPP_URL + "?action=perolehan"
+    WEBAPP_URL +
+    "?action=perolehan&nama=" +
+    encodeURIComponent(nama)
   );
 
   const data = await res.json();
 
-  showPopup("Data perolehan berhasil diambil...");
+  // ===== SUMMARY =====
+  document.getElementById("summary").innerHTML = `
+    <div class="summary-card">
+      <h2>📊 Perolehan</h2>
+
+      <p>👤 ${data.nama}</p>
+
+      <p>💰 Total Omzet :
+        <b>Rp ${Number(data.omzet).toLocaleString("id-ID")}</b>
+      </p>
+
+      <p>🏅 Posisi :
+        <b>${data.posisi} dari ${data.total}</b>
+      </p>
+    </div>
+  `;
+
+  // kosongkan grid bawah
+  document.getElementById("hasil").innerHTML = "";
 }
 loadNama();
 
