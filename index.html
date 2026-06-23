@@ -419,7 +419,19 @@ LOGIN
     <h1>UFO DASHBOARD</h1>
     <p>Absensi & Penjualan Promotor UFO Kebonsari</p>
 </div>
-
+<div style="text-align:right;margin-bottom:15px;">
+  <button onclick="logout()" style="
+    padding:10px 18px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    color:white;
+    background:#dc2626;
+    font-weight:600;
+  ">
+    🚪 Logout
+  </button>
+</div>
 <div class="search-box">
   <select id="nama"></select>
 </div>
@@ -498,6 +510,21 @@ if (currentRole === "USER") {
   showPopup("Login berhasil. Selamat datang " + currentUser);
 
 }
+  function logout() {
+
+  currentUser = "";
+  currentRole = "";
+
+  document.getElementById("dashboard").style.display = "none";
+  document.getElementById("loginBox").style.display = "block";
+
+  document.getElementById("loginNama").value = "";
+  document.getElementById("loginPin").value = "";
+
+  document.getElementById("summary").innerHTML = "";
+  document.getElementById("hasil").innerHTML = "";
+
+}  
 function tampil(v){
 
     return (v && v.trim() !== "")
