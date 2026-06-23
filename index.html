@@ -571,23 +571,7 @@ localStorage.setItem("loginRole", currentRole);
   document.getElementById("logoutPopup").style.display = "block";
 
 }
-if (!confirm("Yakin ingin logout?")) {
-  return;
-}
-  currentUser = "";
-  currentRole = "";
 
-  document.getElementById("dashboard").style.display = "none";
-  document.getElementById("loginBox").style.display = "block";
-
-  document.getElementById("loginNama").value = "";
-  document.getElementById("loginPin").value = "";
-
-  document.getElementById("summary").innerHTML = "";
-  document.getElementById("hasil").innerHTML = "";
-localStorage.setItem("loginNama", currentUser);
-localStorage.setItem("loginRole", currentRole);
-}  
 function tutupLogout() {
 
   document.getElementById("logoutPopup").style.display = "none";
