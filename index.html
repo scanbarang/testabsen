@@ -1034,18 +1034,14 @@ async function cariPerolehan() {
   document.getElementById("btnUC").classList.remove("active");
   document.getElementById("btnPerolehan").classList.add("active");
 
-  let nama;
+ let nama = currentRole === "USER"
+  ? currentUser
+  : document.getElementById("nama").value.trim();
 
-  if (currentRole === "USER") {
-    nama = currentUser;
-  } else {
-    nama = document.getElementById("nama").value.trim();
-  }
-
-  if (!nama) {
-    showPopup("Pilih nama terlebih dahulu");
-    return;
-  }
+if (!nama && currentRole !== "USER") {
+  showPopup("Pilih nama terlebih dahulu");
+  return;
+}
 
   const res = await fetch(
     WEBAPP_URL +
