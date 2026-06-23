@@ -1034,24 +1034,31 @@ async function cariPerolehan() {
   const res = await fetch(WEBAPP_URL + "?action=perolehan");
   const data = await res.json();
 
-  // =========================
-  // SUMMARY (PAKAI LIST AMAN)
-  // =========================
-  let user = data.list.find(x => x.nama === currentSales);
+  // Cari data user berdasarkan Nama Absen
+  const user = data.list.find(
+    x => (x.nama || "").toUpperCase() === (currentUser || "").toUpperCase()
+  );
+
+  // Hitung posisi
+  const posisi = user
+    ? data.list.findIndex(
+        x => (x.nama || "").toUpperCase() === (currentUser || "").toUpperCase()
+      ) + 1
+    : 0;
 
   document.getElementById("summary").innerHTML = `
     <div class="summary-card">
       <h2>📊 Perolehan</h2>
       <p>👤 ${currentUser}</p>
       <p>💰 Total Omzet :
-        <b>Rp ${(user ? user.omzet : 0).toLocaleString("id-ID")}</b>
+        <b>Rp ${Number(user ? user.omzet : 0).toLocaleString("id-ID")}</b>
+      </p>
+      <p>🏅 Posisi :
+        <b>${posisi} dari ${data.list.length} Promotor</b>
       </p>
     </div>
   `;
 
-  // =========================
-  // LIST RANKING (TIDAK DIUBAH)
-  // =========================
   let html = "";
 
   data.list.forEach((x, i) => {
