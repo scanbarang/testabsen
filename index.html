@@ -1055,14 +1055,21 @@ async function cariPerolehan() {
 
   const data = await res.json();
 
-  // ===== SUMMARY USER =====
-  let user = data.list.find(x => x.nama === nama) || { omzet: 0 };
+  // =========================
+  // AMBIL DATA USER (WAJIB PAKAI SALES)
+  // =========================
+  let user = data.list.find(x =>
+    x.nama === currentSales
+  ) || { omzet: 0 };
 
+  // =========================
+  // SUMMARY
+  // =========================
   document.getElementById("summary").innerHTML = `
     <div class="summary-card">
       <h2>📊 Perolehan</h2>
 
-      <p>👤 ${nama}</p>
+      <p>👤 ${currentUser}</p>
 
       <p>💰 Total Omzet :
         <b>Rp ${Number(user.omzet || 0).toLocaleString("id-ID")}</b>
@@ -1070,7 +1077,9 @@ async function cariPerolehan() {
     </div>
   `;
 
-  // ===== LEADERBOARD =====
+  // =========================
+  // LEADERBOARD
+  // =========================
   let html = "";
 
   data.list.forEach((x, i) => {
