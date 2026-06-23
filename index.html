@@ -1026,71 +1026,36 @@ document.getElementById("hasil").innerHTML = html;
 }
 async function cariPerolehan() {
 
-  document.getElementById("btnAbsen").classList.remove("active");
-  document.getElementById("btnJual").classList.remove("active");
-  document.getElementById("btnUC").classList.remove("active");
-  document.getElementById("btnPerolehan").classList.add("active");
+document.getElementById("btnAbsen").classList.remove("active");
+document.getElementById("btnJual").classList.remove("active");
+document.getElementById("btnUC").classList.remove("active");
+document.getElementById("btnPerolehan").classList.add("active");
 
-  const res = await fetch(WEBAPP_URL + "?action=perolehan");
-  const data = await res.json();
+const res = await fetch(WEBAPP_URL + "?action=perolehan");
+const data = await res.json();
 
-  // Cari data user berdasarkan Nama Absen
-  const user = data.list.find(
-    x => (x.nama || "").toUpperCase() === (currentUser || "").toUpperCase()
-  );
+// Cari data user berdasarkan Nama Absen
+const user = data.list.find(
+x => (x.nama || "").toUpperCase() === (currentUser || "").toUpperCase()
+);
 
-  // Hitung posisi
-  const posisi = user
-    ? data.list.findIndex(
-        x => (x.nama || "").toUpperCase() === (currentUser || "").toUpperCase()
-      ) + 1
-    : 0;
+// Hitung posisi
+const posisi = user
+? data.list.findIndex(
+x => (x.nama || "").toUpperCase() === (currentUser || "").toUpperCase()
+) + 1
+: 0;
 
-  document.getElementById("summary").innerHTML = `
-    <div class="summary-card">
-      <h2>📊 Perolehan</h2>
-      <p>👤 ${currentUser}</p>
-      <p>💰 Total Omzet :
-        <b>Rp ${Number(user ? user.omzet : 0).toLocaleString("id-ID")}</b>
-      </p>
-      <p>🏅 Posisi :
-        <b>${posisi} dari ${data.list.length} Promotor</b>
-      </p>
-    </div>
-  `;
+document.getElementById("summary").innerHTML =   <div class="summary-card">   <h2>📊 Perolehan</h2>   <p>👤 ${currentUser}</p>   <p>💰 Total Omzet :   <b>Rp ${Number(user ? user.omzet : 0).toLocaleString("id-ID")}</b>   </p>   <p>🏅 Posisi :   <b>${posisi} dari ${data.list.length} Promotor</b>   </p>   </div>  ;
 
-  let html = "";
+let html = "";
 
 data.list.forEach((x, i) => {
-
-  let rankColor = "";
-
-  if (i === 0) rankColor = "style='border-left:6px solid gold'";
-  else if (i === 1) rankColor = "style='border-left:6px solid silver'";
-  else if (i === 2) rankColor = "style='border-left:6px solid #cd7f32'";
-
-  html += `
-    <div class="card" ${rankColor} style="
-      display:flex;
-      justify-content:space-between;
-      padding:12px;
-      margin-bottom:10px;
-      border-radius:10px;
-      background:#fff;
-      box-shadow:0 2px 6px rgba(0,0,0,0.08);
-    ">
-      <div style="font-weight:600;">
-        ${i + 1}. ${x.nama}
-      </div>
-
-      <div style="font-weight:700;">
-        Rp ${Number(x.omzet || 0).toLocaleString("id-ID")}
-      </div>
-    </div>
-  `;
+html +=   <div class="card">   <div><b>${i + 1}. ${x.nama}</b></div>   <div>Rp ${Number(x.omzet || 0).toLocaleString("id-ID")}</div>   </div>  ;
 });
 
 document.getElementById("hasil").innerHTML = html;
+}
 loadNama();
 
 </script>
