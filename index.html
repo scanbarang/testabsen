@@ -1052,25 +1052,34 @@ async function cariPerolehan() {
 
   const data = await res.json();
 
-  // ===== SUMMARY =====
+  // ===== SUMMARY USER =====
+  let user = data.list.find(x => x.nama === nama) || { omzet: 0 };
+
   document.getElementById("summary").innerHTML = `
     <div class="summary-card">
       <h2>📊 Perolehan</h2>
 
-      <p>👤 ${data.nama}</p>
+      <p>👤 ${nama}</p>
 
       <p>💰 Total Omzet :
-        <b>Rp ${Number(data.omzet).toLocaleString("id-ID")}</b>
-      </p>
-
-      <p>🏅 Posisi :
-        <b>${data.posisi} dari ${data.total}</b>
+        <b>Rp ${Number(user.omzet || 0).toLocaleString("id-ID")}</b>
       </p>
     </div>
   `;
 
-  // kosongkan grid bawah
-  document.getElementById("hasil").innerHTML = "";
+  // ===== LEADERBOARD =====
+  let html = "";
+
+  data.list.forEach((x, i) => {
+    html += `
+      <div class="card">
+        <div><b>${i + 1}. ${x.nama}</b></div>
+        <div>Rp ${Number(x.omzet || 0).toLocaleString("id-ID")}</div>
+      </div>
+    `;
+  });
+
+  document.getElementById("hasil").innerHTML = html;
 }
 loadNama();
 
