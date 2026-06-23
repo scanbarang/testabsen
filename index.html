@@ -970,7 +970,7 @@ encodeURIComponent(nama)
 );
 
 const data = await res.json();
-
+document.getElementById("hasil").className = "grid";
 document.getElementById("summary").innerHTML = `
 <div class="summary-card">
 
@@ -1071,7 +1071,7 @@ data.list.forEach((x, i) => {
 });
 
 html += `</div>`;
-
+document.getElementById("hasil").className = "";
 document.getElementById("hasil").innerHTML = html;
 }
 loadNama();
