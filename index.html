@@ -511,6 +511,8 @@ if (currentRole === "USER") {
 if (currentRole === "USER") {
   cari();
 }
+ localStorage.setItem("loginNama", currentUser);
+localStorage.setItem("loginRole", currentRole);   
 }
   function logout() {
 
@@ -525,7 +527,8 @@ if (currentRole === "USER") {
 
   document.getElementById("summary").innerHTML = "";
   document.getElementById("hasil").innerHTML = "";
-
+localStorage.setItem("loginNama", currentUser);
+localStorage.setItem("loginRole", currentRole);
 }  
 function tampil(v){
 
