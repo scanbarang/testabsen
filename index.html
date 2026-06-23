@@ -471,6 +471,13 @@ LOGIN
     <h1>UFO DASHBOARD</h1>
     <p>Absensi & Penjualan Promotor UFO Kebonsari</p>
 </div>
+  <div id="loginInfo" style="
+  text-align:center;
+  margin-top:10px;
+  color:#cbd5e1;
+  font-size:14px;
+  font-weight:600;
+"></div>  
 <div style="text-align:right;margin-bottom:15px;">
   <button onclick="logout()" style="
     padding:10px 18px;
@@ -552,6 +559,11 @@ async function login() {
   currentUser = data.nama;
   currentRole = data.role;
 localStorage.setItem("sessionToken", result.sessionToken);
+    document.getElementById("loginInfo").innerHTML =
+  "👤 Login sebagai: <b>" +
+  currentUser +
+  "</b>" +
+  (currentRole === "ADMIN" ? " (ADMIN)" : "");
   document.getElementById("loginBox").style.display = "none";
   document.getElementById("dashboard").style.display = "block";
 if (currentRole === "USER") {
