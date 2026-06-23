@@ -517,9 +517,13 @@ document.getElementById("btnUC")
     document.getElementById("btnAbsen")
     .classList.add("active");
 
-    const nama =
-    document.getElementById("nama").value.trim();
+    let nama;
 
+if (currentRole === "USER") {
+  nama = currentUser;
+} else {
+  nama = document.getElementById("nama").value.trim();
+}
     if(!nama){
     showPopup("Pilih nama terlebih dahulu");
     return;
@@ -652,9 +656,13 @@ document.getElementById("btnAbsen")
 
 document.getElementById("btnJual")
 .classList.add("active");
-  const nama =
-    document.getElementById("nama").value.trim();
+  let nama;
 
+if (currentRole === "USER") {
+  nama = currentUser;
+} else {
+  nama = document.getElementById("nama").value.trim();
+}
   if(!nama){
     showPopup("Pilih nama terlebih dahulu");
     return;
@@ -824,8 +832,13 @@ document.getElementById("btnJual")
 document.getElementById("btnUC")
 .classList.add("active");
 
-const nama =
-document.getElementById("nama").value.trim();
+let nama;
+
+if (currentRole === "USER") {
+  nama = currentUser;
+} else {
+  nama = document.getElementById("nama").value.trim();
+}
 
 if(!nama){
 showPopup("Pilih nama terlebih dahulu");
