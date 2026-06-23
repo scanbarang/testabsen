@@ -490,7 +490,11 @@ async function login() {
 
   document.getElementById("loginBox").style.display = "none";
   document.getElementById("dashboard").style.display = "block";
-
+if (currentRole === "USER") {
+  document.querySelector(".search-box").style.display = "none";
+} else {
+  document.querySelector(".search-box").style.display = "block";
+}
   showPopup("Login berhasil. Selamat datang " + currentUser);
 
 }
