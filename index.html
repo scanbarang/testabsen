@@ -1057,18 +1057,22 @@ async function cariPerolehan() {
     </div>
   `;
 
-  let html = "";
+ let html = `
+  <div class="summary-card">
+`;
 
-  data.list.forEach((x, i) => {
-    html += `
-      <div class="card">
-        <div><b>${i + 1}. ${x.nama}</b></div>
-        <div>Rp ${Number(x.omzet || 0).toLocaleString("id-ID")}</div>
-      </div>
-    `;
-  });
+data.list.forEach((x, i) => {
+  html += `
+    <div class="row" style="padding:12px 0;">
+      <span><b>${i + 1}. ${x.nama}</b></span>
+      <span>Rp ${Number(x.omzet || 0).toLocaleString("id-ID")}</span>
+    </div>
+  `;
+});
 
-  document.getElementById("hasil").innerHTML = html;
+html += `</div>`;
+
+document.getElementById("hasil").innerHTML = html;
 }
 loadNama();
 
