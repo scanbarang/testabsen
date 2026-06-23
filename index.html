@@ -525,11 +525,13 @@ LOGIN
 </div>
 <div id="hasil" class="grid"></div>
 <script>
-
+let currentUser = "";
+let currentSales = "";
+let currentRole = "";
 const WEBAPP_URL =
 "https://script.google.com/macros/s/AKfycbwBMxlujfB7xE68welYbFrC5utj4cF7r9sx_kqWxr7iXL50B0jBWRWxUjJolc72HJ-8mA/exec";
-let currentUser = "";
-let currentRole = "";
+
+
 
 async function login() {
 
@@ -563,7 +565,8 @@ async function login() {
     return;
   }
 
-  currentUser = nama;
+  currentUser = data.namaAbsen;
+currentSales = data.namaSales;
   currentRole = data.role;
     document.getElementById("loginInfo").innerHTML =
   "👤 Login sebagai: <b>" +
