@@ -508,7 +508,9 @@ if (currentRole === "USER") {
   document.querySelector(".search-box").style.display = "block";
 }
   showPopup("Login berhasil. Selamat datang " + currentUser);
-
+if (currentRole === "USER") {
+  cari();
+}
 }
   function logout() {
 
