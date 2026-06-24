@@ -896,49 +896,8 @@ for (const tanggal in grupTanggal) {
 document.getElementById("hasil").innerHTML = html;
 }
 window.showPopup = function(pesan) {
-
-  let popup = document.getElementById("globalPopup");
-
-  if (!popup) {
-
-    popup = document.createElement("div");
-    popup.id = "globalPopup";
-
-    popup.style.position = "fixed";
-    popup.style.top = "0";
-    popup.style.left = "0";
-    popup.style.width = "100%";
-    popup.style.height = "100%";
-    popup.style.background = "rgba(0,0,0,0.4)";
-    popup.style.display = "flex";
-    popup.style.alignItems = "center";
-    popup.style.justifyContent = "center";
-    popup.style.zIndex = "99999";
-
-    popup.innerHTML = `
-      <div style="
-        background:#fff;
-        padding:18px;
-        border-radius:12px;
-        min-width:220px;
-        text-align:center;
-        font-family:Arial;
-        box-shadow:0 10px 25px rgba(0,0,0,0.3);
-      ">
-        <div id="popupText"></div>
-        <br>
-        <button onclick="document.getElementById('globalPopup').style.display='none'"
-          style="padding:6px 12px; border:none; border-radius:6px; cursor:pointer;">
-          OK
-        </button>
-      </div>
-    `;
-
-    document.body.appendChild(popup);
-  }
-
-  document.getElementById("popupText").innerText = pesan;
-  popup.style.display = "flex";
+  document.getElementById("messageText").innerText = pesan;
+  document.getElementById("messagePopup").style.display = "flex";
 };
 function tutupPopup(){
 
