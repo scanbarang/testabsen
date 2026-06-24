@@ -574,8 +574,10 @@ async function login() {
   document.getElementById("dashboard").style.display = "block";
 if (currentRole === "USER") {
   document.querySelector(".search-box").style.display = "none";
+  document.getElementById("btnPerolehan").style.display = "none";
 } else {
   document.querySelector(".search-box").style.display = "block";
+  document.getElementById("btnPerolehan").style.display = "inline-block";
 }
   showPopup("Login berhasil. Selamat datang " + currentUser);
 if (currentRole === "USER") {
