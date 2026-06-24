@@ -927,7 +927,7 @@ window.showPopup = function(pesan) {
       ">
         <div id="popupText"></div>
         <br>
-        <button onclick="document.getElementById('globalPopup').remove()"
+        <button onclick="document.getElementById('globalPopup').style.display='none'"
           style="padding:6px 12px; border:none; border-radius:6px; cursor:pointer;">
           OK
         </button>
@@ -1244,6 +1244,16 @@ background:linear-gradient(135deg,#3b82f6,#06b6d4);
       Logout
     </button>
   </div>
+      <div id="messagePopup" style="display:none;">
+  <div id="logoutBox">
+    <h3 id="messageTitle">📢 Informasi</h3>
+    <p id="messageText"></p>
+
+    <button id="btnLogoutConfirm" onclick="tutupMessagePopup()">
+      OK
+    </button>
+  </div>
+</div>
 </div>  
 </body>
 </html>
