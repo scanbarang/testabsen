@@ -1054,8 +1054,19 @@ async function cariPerolehan() {
       <h2>📊 Perolehan</h2>
       <p>👤 ${currentUser}</p>
       <p>💰 Total Omzet :
-        <b>Rp ${Number(user ? user.omzet : 0).toLocaleString("id-ID")}</b>
-      </p>
+  <span style="
+    font-weight:bold;
+    color:${
+      Number(user ? user.omzet : 0) >= 100000000
+        ? '#22c55e'
+        : Number(user ? user.omzet : 0) >= 80000000
+        ? '#f59e0b'
+        : '#ef4444'
+    };
+  ">
+    Rp ${Number(user ? user.omzet : 0).toLocaleString("id-ID")}
+  </span>
+</p>
       <p>🏅 Posisi :
         <b>${posisi} dari ${data.list.length} Promotor</b>
       </p>
