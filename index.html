@@ -556,7 +556,7 @@ async function login() {
     encodeURIComponent(pin)
   );
 
-  const data = await res.json();
+  const data = await res.json();console.log(data);
 
   if (!data.success) {
     showPopup("Nama atau PIN salah.");
@@ -1124,7 +1124,7 @@ data.list.forEach((x, i) => {
   color:#facc15;
   margin-top:2px;
 ">
-  🛡️ UC : ${x.uc || 0}
+  💎 UC : ${x.uc || 0}
 </div>
 </div>
     </div>
