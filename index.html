@@ -451,6 +451,7 @@ font-size:15px;
 ">
 
 <button
+id="btnLogin"
 onclick="login()"
 style="
 width:100%;
@@ -524,6 +525,22 @@ LOGIN
 </button> 
 </div>
 <div id="hasil" class="grid"></div>
+ .spinner{
+  width:18px;
+  height:18px;
+  display:inline-block;
+  border:3px solid rgba(255,255,255,.3);
+  border-top:3px solid #fff;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+  vertical-align:middle;
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}   
 <script>
 
 const WEBAPP_URL =
