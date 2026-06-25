@@ -904,12 +904,17 @@ for (const tanggal in grupTanggal) {
 
 document.getElementById("hasil").innerHTML = html;
 }
-window.showPopup = function(pesan) {
-  document.getElementById("popupText").innerText = pesan;
-  document.getElementById("popup").style.display = "flex";
-};
-function tutupPopup() {
-  document.getElementById("popup").style.display = "none";
+function showPopup(pesan) {
+  console.log("showPopup dipanggil:", pesan);
+
+  const popup = document.getElementById("popup");
+  const text = document.getElementById("popupText");
+
+  console.log(popup);
+  console.log(text);
+
+  text.innerText = pesan;
+  popup.style.display = "flex";
 }
 document
 .getElementById("nama")
