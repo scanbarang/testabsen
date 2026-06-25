@@ -7,7 +7,22 @@
 <title>UFO Kebonsari</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+.spinner{
+  width:18px;
+  height:18px;
+  display:inline-block;
+  border:3px solid rgba(255,255,255,.3);
+  border-top:3px solid #fff;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+  vertical-align:middle;
+}
 
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}   
 <style>
 *{
     box-sizing:border-box;
