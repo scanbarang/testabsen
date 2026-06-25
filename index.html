@@ -585,7 +585,7 @@ if (!data.success) {
     btn.disabled = false;
     btn.innerHTML = "LOGIN";
 
-    showPopup(data.message || "Nama atau PIN salah");
+    alert(data.message || "Nama atau PIN salah");
     return;
 }
   currentUser = nama;
@@ -672,8 +672,12 @@ if (currentRole === "USER") {
 } else {
   nama = document.getElementById("nama").value.trim();
 }
-    if(!nama){
-    showPopup("Pilih nama terlebih dahulu");
+   if (!nama || !pin) {
+    const btn = document.getElementById("btnLogin");
+    btn.disabled = false;
+    btn.innerHTML = "LOGIN";
+
+    alert("Nama dan PIN harus diisi.");
     return;
 }
 
