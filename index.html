@@ -587,7 +587,7 @@ if (!data.success) {
   currentUser = nama;
   currentRole = data.role;
     document.getElementById("loginInfo").innerHTML =
-  "🪟<b>" +
+  "⭕<b>" +
   currentUser +
   "</b>" +
   (currentRole === "ADMIN" ? " (ADMIN)" : "");
@@ -698,7 +698,7 @@ const terlambat = result.terlambat || 0;
 
         document.getElementById("summary").innerHTML = `
         <div class="summary-card">
-            <h2>👤 ${data[0].nama}</h2>
+            <h2>🏆 ${data[0].nama}</h2>
             <p>Total Hari Absen : <b>${data.length}</b></p>
             <p>Belum Finger Pulang : <b>${belumPulang}</b></p>
             <p>Datang Terlambat : <b>${terlambat}</b></p>
