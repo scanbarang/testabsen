@@ -559,10 +559,9 @@ async function login() {
   const data = await res.json();console.log(data);
 
 if (!data.success) {
-    alert(data.message || "Nama atau PIN salah");
+    showPopup(data.message || "Nama atau PIN salah");
     return;
 }
-
   currentUser = nama;
   currentRole = data.role;
     document.getElementById("loginInfo").innerHTML =
