@@ -551,7 +551,10 @@ let currentRole = "";
 async function login() {
 const btn = document.getElementById("btnLogin");
 btn.disabled = true;
-btn.innerHTML = '<span class="spinner"></span> LOGIN...';
+btn.innerHTML = `
+  <span class="spinner" style="margin-right:8px;"></span>
+  LOGIN...
+`;
   const nama = document
     .getElementById("loginNama")
     .value
