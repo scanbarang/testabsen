@@ -906,12 +906,11 @@ for (const tanggal in grupTanggal) {
 document.getElementById("hasil").innerHTML = html;
 }
 window.showPopup = function(pesan) {
-  document.getElementById("infoPopupText").innerText = pesan;
-  document.getElementById("infoPopup").style.display = "block";
+  document.getElementById("popupText").innerText = pesan;
+  document.getElementById("popup").style.display = "flex";
 };
-
-function tutupInfoPopup() {
-  document.getElementById("infoPopup").style.display = "none";
+function tutupPopup() {
+  document.getElementById("popup").style.display = "none";
 }
 document
 .getElementById("nama")
