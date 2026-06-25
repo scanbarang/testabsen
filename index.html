@@ -1156,11 +1156,16 @@ data.list.forEach((x, i) => {
   <div style="
     font-weight:800;
     font-size:13px;
-    color:#4ade80;
-  ">
-    Rp ${Number(x.omzet || 0).toLocaleString("id-ID")}
-  </div>
-
+    color:${
+      Number(x.omzet || 0) >= 100000000
+        ? '#22c55e'
+        : Number(x.omzet || 0) >= 80000000
+        ? '#f59e0b'
+        : '#ef4444'
+    };
+">
+  Rp ${Number(x.omzet || 0).toLocaleString("id-ID")}
+</div>
   <div style="
   font-size:12px;
   font-weight:700;
