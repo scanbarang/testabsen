@@ -581,7 +581,11 @@ btn.innerHTML = `
   const data = await res.json();console.log(data);
 
 if (!data.success) {
-    alert(data.message || "Nama atau PIN salah");
+    const btn = document.getElementById("btnLogin");
+    btn.disabled = false;
+    btn.innerHTML = "LOGIN";
+
+    showPopup(data.message || "Nama atau PIN salah");
     return;
 }
   currentUser = nama;
@@ -808,11 +812,14 @@ if (currentRole === "USER") {
 } else {
   nama = document.getElementById("nama").value.trim();
 }
-  if(!nama){
-    showPopup("Pilih nama terlebih dahulu");
-    return;
-  }
+  if (!nama || !pin) {
+    const btn = document.getElementById("btnLogin");
+    btn.disabled = false;
+    btn.innerHTML = "LOGIN";
 
+    showPopup("Nama dan PIN harus diisi.");
+    return;
+}
   const res =
     await fetch(
       WEBAPP_URL +
