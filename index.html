@@ -559,8 +559,9 @@ async function login() {
   const data = await res.json();console.log(data);
 
 if (!data.success) {
-  alert("❌ " + (data.message || "Nama atau PIN salah."));
+  showPopup("❌ " + (data.message || "Nama atau PIN salah."));
   return;
+}
 }
   currentUser = nama;
   currentRole = data.role;
@@ -1221,7 +1222,7 @@ background:linear-gradient(135deg,#3b82f6,#06b6d4);
       Logout
     </button>
   </div>
-     <div id="messagePopup" style="display:none;">
+   
   <div id="logoutBox">
     <h3>📢 Informasi</h3>
     <p id="messageText"></p>
