@@ -914,7 +914,10 @@ function showPopup(pesan) {
   console.log(text);
 
   text.innerText = pesan;
-  popup.style.display = "block";
+  popup.style.display = "flex";
+}
+    function tutupPopup() {
+  document.getElementById("popup").style.display = "none";
 }
 document
 .getElementById("nama")
