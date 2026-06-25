@@ -425,7 +425,7 @@ border:1px solid rgba(255,255,255,.12);
 </h2>
 
 <input
-id="loginNama"
+id="Nama"
 type="text"
 placeholder="Nama"
 style="
@@ -558,9 +558,8 @@ async function login() {
 
   const data = await res.json();console.log(data);
 
- if (!data.success) {
-  console.log("MASUK ERROR LOGIN POPUP"); 
-  showPopup("❌ " + (data.message || "Nama atau PIN salah."));
+if (!data.success) {
+  alert("❌ " + (data.message || "Nama atau PIN salah."));
   return;
 }
   currentUser = nama;
