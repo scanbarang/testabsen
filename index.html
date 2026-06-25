@@ -638,6 +638,9 @@ function logoutConfirm() {
   localStorage.removeItem("loginNama");
   localStorage.removeItem("loginRole");
 localStorage.removeItem("sessionToken");
+    const btn = document.getElementById("btnLogin");
+btn.disabled = false;
+btn.innerHTML = "LOGIN";
 }    
 function tampil(v){
 
