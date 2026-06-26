@@ -654,45 +654,33 @@ function tampil(v){
 
 }
 
-async function cari(){
+async function cari() {
 
-    document.getElementById("btnJual")
-    .classList.remove("active");
-    
-document.getElementById("btnUC")
-.classList.remove("active");
-    
-    document.getElementById("btnAbsen")
-    .classList.add("active");
-document.getElementById("btnPerolehan").classList.remove("active");
-    let nama;
+  document.getElementById("btnJual").classList.remove("active");
+  document.getElementById("btnUC").classList.remove("active");
+  document.getElementById("btnAbsen").classList.add("active");
+  document.getElementById("btnPerolehan").classList.remove("active");
 
-if (currentRole === "USER") {
-  nama = currentUser;
-} else {
-  nama = document.getElementById("nama").value.trim();
-}
-   if (!nama) {
+  let nama;
+
+  if (currentRole === "USER") {
+    nama = currentUser;
+  } else {
+    nama = document.getElementById("nama").value.trim();
+  }
+
+  if (!nama) {
     showPopup("Pilih nama terlebih dahulu");
     return;
-}
-    const btn = document.getElementById("btnLogin");
-    btn.disabled = false;
-    btn.innerHTML = "LOGIN";
+  }
 
-    alert("Nama dan PIN harus diisi.");
-    return;
-}
+  const res = await fetch(
+    WEBAPP_URL + "?nama=" + encodeURIComponent(nama)
+  );
 
-    const res =
-    await fetch(
-        WEBAPP_URL +
-        "?nama=" +
-        encodeURIComponent(nama)
-    );
+  const result = await res.json();
 
-    const result = await res.json();
-
+  // lanjutkan kode yang sudah ada...
 const data = result.data || [];
 const terlambat = result.terlambat || 0;
     data.sort(
