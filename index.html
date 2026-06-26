@@ -816,12 +816,8 @@ if (currentRole === "USER") {
 } else {
   nama = document.getElementById("nama").value.trim();
 }
-  if (!nama || !pin) {
-    const btn = document.getElementById("btnLogin");
-    btn.disabled = false;
-    btn.innerHTML = "LOGIN";
-
-    showPopup("Nama dan PIN harus diisi.");
+  if (!nama) {
+   showPopup("Nama dan PIN harus diisi.");
     return;
 }
   const res =
