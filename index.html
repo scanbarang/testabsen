@@ -544,7 +544,7 @@ LOGIN
 <script>
 
 const WEBAPP_URL =
-"https://script.google.com/macros/s/AKfycbwBMxlujfB7xE68welYbFrC5utj4cF7r9sx_kqWxr7iXL50B0jBWRWxUjJolc72HJ-8mA/exec";
+"https://script.google.com/macros/s/AKfycbwKbscxs_avurQJzcDDy2YB-laTL9kbzDNHcOuOV8TYGzQxiKtveG83AfvyvgoeB4pDpg/exec";
 let currentUser = "";
 let currentRole = "";
 
@@ -1216,46 +1216,13 @@ data.list.forEach((x, i) => {
     </div>
   `;
 });
-if (currentRole === "ADMIN") {
 
-  document.getElementById("summary").innerHTML += `
-  <div style="margin-top:10px;text-align:center">
-    <button
-      onclick="exportExcelPerolehan()"
-      style="
-        background:#16a34a;
-        color:white;
-        border:none;
-        padding:10px 18px;
-        border-radius:8px;
-        cursor:pointer;
-        font-weight:bold;
-      ">
-      📊 Export Excel
-    </button>
-  </div>
-  `;
-
-}
 html += `</div>`;
 
 document.getElementById("hasil").className = "";
 document.getElementById("hasil").innerHTML = html;
 loadNama();
     }
-   async function exportExcelPerolehan(){
-
-  const res = await fetch(
-    WEBAPP_URL + "?action=exportPerolehan"
-  );
-
-  const data = await res.json();
-
-  console.log(data);
-
-  alert("Data export berhasil diambil.\nLangkah berikutnya kita buat file Excel.");
-
-}
 </script>
 
 <div id="popup" style="
